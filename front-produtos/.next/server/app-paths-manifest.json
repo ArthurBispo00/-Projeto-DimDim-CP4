@@ -1,0 +1,6 @@
+{
+  "/novo/page": "app/novo/page.js",
+  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/editar/[id]/page": "app/editar/[id]/page.js"
+}
