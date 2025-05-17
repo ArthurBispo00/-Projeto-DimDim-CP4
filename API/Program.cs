@@ -1,4 +1,4 @@
-using APIrestfullC_.Properties.Data; // Importante: precisa incluir o namespace correto
+using APIrestfullC_.Properties.Data; // Certifique-se que este namespace está correto
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +9,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFront", policy =>
     {
         policy
-            .WithOrigins("http://localhost:3000")  // origem do seu front
-            .AllowAnyMethod()                       // GET, POST, PUT, DELETE...
-            .AllowAnyHeader();                      // Content-Type, Authorization...
+            .WithOrigins("http://localhost:3000") // URL do seu front
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+            // .AllowCredentials(); // Adicione esta linha se precisar enviar cookies/autenticação
     });
 });
 
@@ -20,23 +21,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Registro do DbContext usando PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Ativa o Swagger só em desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// 2) Ativa o CORS **antes** de MapControllers
+// ATENÇÃO: Ative o CORS aqui, ANTES de qualquer redirecionamento/authorization
 app.UseCors("AllowFront");
 
+// Se NÃO estiver usando HTTPS no Docker, pode comentar a próxima linha:
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
