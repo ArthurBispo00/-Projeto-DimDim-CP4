@@ -100,7 +100,7 @@ cd Projeto-DimDimApp-CP3
 docker network create joaorm557808_rede
 ```
 
-!\[Criação da Rede]\(imagens/criacao da rede.png)
+!\[Criação da Rede]\(imagens/criacao_da_rede.png)
 
 ### 3. Criação do Volume Docker
 
@@ -108,7 +108,7 @@ docker network create joaorm557808_rede
 docker volume create joaorm557808_postgres_data
 ```
 
-!\[Criação do Volume]\(imagens/criacao do volume.png)
+!\[Criação do Volume]\(criacao_do_volume.png)
 
 ### 4. Build da API (.NET)
 
@@ -139,7 +139,7 @@ docker run -d --name joaorm557808_postgres --network joaorm557808_rede \
   -p 5432:5432 postgres:16
 ```
 
-!\[Banco de Dados]\(imagens/banco de dados.png)
+!\[Banco de Dados]\(imagens/banco_de_dados.png)
 
 ### 7. Execução do Container da API
 
@@ -149,7 +149,7 @@ docker run -d --name joaorm557808_api --network joaorm557808_rede \
   -p 5000:5000 joaorm557808_api
 ```
 
-!\[Execução API]\(imagens/run imag api.png)
+!\[Execução API]\(imagens/run_imag_api.png)
 
 ### 8. Execução do Container do Frontend
 
@@ -159,7 +159,7 @@ docker run -d --name joaorm557808_front --network joaorm557808_rede \
   -p 3000:3000 joaorm557808_front
 ```
 
-!\[Execução Front]\(imagens/run imag front.png)
+!\[Execução Front]\(imagens/run_imag_front.png)
 
 ### Containers rodando
 
@@ -168,6 +168,17 @@ docker ps
 ```
 
 ![Docker PS](imagens/dockerps.png)
+
+### Acesso ao container da aplicação (usuário não-root)
+
+```docker exec -it joaorm557808_api sh
+ls
+whoami
+```
+
+![Docker PS](imagens/usuario.png)
+
+
 
 ## Justificativas das Decisões
 
