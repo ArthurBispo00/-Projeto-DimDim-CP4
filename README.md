@@ -100,7 +100,7 @@ cd Projeto-DimDimApp-CP3
 docker network create joaorm557808_rede
 ```
 
-!\[Criação da Rede]\(imagens/rede.png)
+![docker exec -it](imagens/usuario.png)
 
 ### 3. Criação do Volume Docker
 
@@ -176,7 +176,7 @@ ls
 whoami
 ```
 
-![Docker PS](imagens/usuario.png)
+![docker exec -it](imagens/usuario.png)
 
 
 
