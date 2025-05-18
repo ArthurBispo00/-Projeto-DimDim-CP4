@@ -2,6 +2,7 @@
 
 **Equipe:**
 João Paulo Moreira dos Santos — RM 557808
+Arthur Bispo de Lima — RM 557568
 
 ---
 
@@ -178,22 +179,30 @@ whoami
 
 ![docker exec -it](imagens/usuario.png)
 
+### Listagem das imagens Docker (docker image ls)
+
+```sh
+docker image ls
+```
+![docker exec -it](imagens/dockerimage.png)
+
+
+### Listagem das redes (docker network ls)
+
+```sh
+docker image ls
+```
+![docker exec -it](imagens/dockerrede.png)
 
 
 ## Justificativas das Decisões
 
 * **Banco:** Imagem oficial PostgreSQL.
 * **Volume:** Persistência dos dados garantida.
-* **Rede:** Isolamento e comunicação dedicada.
 * **Usuário:** Execução não-root para segurança.
 * **CRUD:** Completo e funcional.
 * **Docker exec:** Evidências fornecidas.
 
-## Link do Repositório no GitHub
-
-[Repositório GitHub](https://github.com/joao1015/Projeto-DimDimApp-CP3)
-
----
 
 ## Conclusão
 
