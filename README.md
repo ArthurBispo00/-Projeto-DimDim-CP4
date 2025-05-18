@@ -139,7 +139,7 @@ docker run -d --name joaorm557808_postgres --network joaorm557808_rede \
   -p 5432:5432 postgres:16
 ```
 
-![docker exec -it](imagens/banco.png)
+![docker exec -it](imagens/bancodados.png)
 
 ### 7. Execução do Container da API
 
