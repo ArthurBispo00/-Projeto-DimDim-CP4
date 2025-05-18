@@ -159,7 +159,7 @@ docker run -d --name joaorm557808_front --network joaorm557808_rede \
   -p 3000:3000 joaorm557808_front
 ```
 
-![Execução Front]\(imagens/runfront.png)
+![docker exec -it](imagens/runfront.png)
 
 ### Containers rodando
 
