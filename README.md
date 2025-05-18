@@ -65,40 +65,63 @@ Implementar uma solução DevOps de automação, isolamento e persistência de d
 /Projeto-DimDimApp-CP3
 │
 ├── API/
-│   ├── Dockerfile        # Dockerfile da API (.NET, usuário stevejobs)
-│   └── ...              # Código-fonte da API
+│   ├── Dockerfile
+│   └── ...código da API...
 │
 ├── front-produtos/
-│   ├── Dockerfile        # Dockerfile do frontend (usuário stevejobs)
-│   └── ...              # Código-fonte do frontend
+│   ├── Dockerfile
+│   └── ...código do frontend...
 │
-├── evidencias/           # Pasta para os prints (opcional)
+├── imagens/
+│   ├── banco de dados.png
+│   ├── bulddockerfileapi.png
+│   ├── bulddockerfilefront.png
+│   ├── criacao da rede.png
+│   ├── criacao do volume.png
+│   ├── dockerps.png
+│   ├── run imag api.png
+│   ├── run imag front.png
+│   └── usuario.png
 │
-└── README.md             # Este documento
+└── README.md
 Passo a Passo de Execução
-1. Clone o repositório:
-
+1. Clone o repositório
 sh
 Copiar
 Editar
 git clone https://github.com/joao1015/Projeto-DimDimApp-CP3.git
 cd Projeto-DimDimApp-CP3
-2. Crie a rede Docker:
-
+2. Criação da Rede Docker
 sh
 Copiar
 Editar
 docker network create joaorm557808_rede
-<!-- PRINT: Print do comando acima e da lista de redes -->
-3. Crie o volume Docker:
+Print:
 
+3. Criação do Volume Docker
 sh
 Copiar
 Editar
 docker volume create joaorm557808_postgres_data
-<!-- PRINT: Print do comando acima e da lista de volumes -->
-4. Suba o banco de dados PostgreSQL:
+Print:
 
+4. Build da API (.NET)
+sh
+Copiar
+Editar
+cd API
+docker build -t joaorm557808_api .
+Print:
+
+5. Build do Frontend (Next.js)
+sh
+Copiar
+Editar
+cd ../front-produtos
+docker build -t joaorm557808_front .
+Print:
+
+6. Execução do Container do Banco de Dados
 sh
 Copiar
 Editar
@@ -108,29 +131,26 @@ docker run -d --name joaorm557808_postgres --network joaorm557808_rede \
   -e POSTGRES_PASSWORD=joaorm557808pass \
   -v joaorm557808_postgres_data:/var/lib/postgresql/data \
   -p 5432:5432 postgres:16
-<!-- PRINT: Print do comando acima e do container rodando -->
-5. Build e execute a API (.NET):
+Print:
 
+7. Execução do Container da API
 sh
 Copiar
 Editar
-cd API
-docker build -t joaorm557808_api .
 docker run -d --name joaorm557808_api --network joaorm557808_rede \
   -e ConnectionStrings__DefaultConnection="Host=joaorm557808_postgres;Database=joaorm557808db;Username=joaorm557808user;Password=joaorm557808pass" \
   -p 5000:5000 joaorm557808_api
-<!-- PRINT: Print do build da imagem e do container rodando -->
-6. Build e execute o Frontend (Next.js):
+Print:
 
+8. Execução do Container do Frontend
 sh
 Copiar
 Editar
-cd ../front-produtos
-docker build -t joaorm557808_front .
 docker run -d --name joaorm557808_front --network joaorm557808_rede \
   -e NEXT_PUBLIC_API_BASE="http://joaorm557808_api:5000" \
   -p 3000:3000 joaorm557808_front
-<!-- PRINT: Print do build da imagem e do container rodando -->
+Print:
+
 Comandos Docker Utilizados
 docker network create
 
@@ -147,25 +167,14 @@ docker exec -it ... sh
 ls, pwd, whoami (dentro do container)
 
 Evidências e Prints do Funcionamento
-1. Criação da Rede Docker
+1. Containers rodando (docker ps)
+sh
+Copiar
+Editar
+docker ps
 Print:
 
-2. Criação do Volume Docker
-Print:
-
-3. Build das Imagens Docker
-Print (API):
-
-Print (Front):
-
-4. Execução dos Containers
-Print:
-
-5. Comando docker ps
-Print:
-
-6. Acesso aos Containers (docker exec)
-API (.NET)
+2. Acesso ao container da aplicação (usuário não-root)
 sh
 Copiar
 Editar
@@ -175,7 +184,7 @@ pwd
 whoami
 Print:
 
-Banco de Dados
+3. Acesso ao container do banco de dados (usuário root)
 sh
 Copiar
 Editar
@@ -184,40 +193,49 @@ ls
 pwd
 whoami
 Print:
+(Adicione aqui um print similar, caso seu professor peça o usuário do banco — pode duplicar o "usuario.png" caso o comando seja idêntico ou criar um print específico)
 
-7. CRUD Funcionando
-Print (Cadastro):
+4. CRUD funcionando (prints do front ou Postman)
+(Adicione aqui prints de cadastro, listagem, edição, exclusão)
 
-Print (Listagem):
+markdown
+Copiar
+Editar
+**Cadastro:**  
+![Cadastro](imagens/crud_cadastro.png)
 
-Print (Edição):
+**Listagem:**  
+![Listagem](imagens/crud_listagem.png)
 
-Print (Exclusão):
+**Edição:**  
+![Edição](imagens/crud_edicao.png)
 
-8. Persistência do Banco de Dados
-Print:
+**Exclusão:**  
+![Exclusão](imagens/crud_exclusao.png)
+(Renomeie e coloque os prints de CRUD conforme suas capturas.)
 
+5. Persistência dos dados após restart do banco
+(Adicione print mostrando que os dados persistem após reiniciar o container do banco)
+
+markdown
+Copiar
+Editar
+**Persistência:**  
+![Persistência do banco](imagens/persistencia.png)
 Justificativas das Decisões
-Banco de Dados:
-Utilizada a imagem oficial do PostgreSQL conforme o edital, sem Dockerfile próprio.
+Banco de Dados: Utilizada a imagem oficial do PostgreSQL conforme o edital, sem Dockerfile próprio.
 
-Volume Nomeado:
-Garante persistência dos dados do banco mesmo após remoção do container.
+Volume Nomeado: Garante persistência dos dados do banco mesmo após remoção do container.
 
-Rede Docker:
-Containers isolados em rede própria para comunicação exclusiva.
+Rede Docker: Containers isolados em rede própria para comunicação exclusiva.
 
-Usuário Não-Root:
-API e Frontend executando como usuário stevejobs, conforme exigência.
+Usuário Não-Root: API e Frontend executando como usuário stevejobs, conforme exigência.
 
-Execução em Background:
-Todos containers rodam com flag -d.
+Execução em Background: Todos containers rodam com flag -d.
 
-CRUD:
-API implementa todas as operações (Create, Read, Update, Delete) em tabela do banco.
+CRUD: API implementa todas as operações (Create, Read, Update, Delete) em tabela do banco.
 
-Acesso via docker exec:
-Prints comprovam acesso, estrutura e usuários corretos.
+Acesso via docker exec: Prints comprovam acesso, estrutura e usuários corretos.
 
 Link do Repositório no GitHub
 https://github.com/joao1015/Projeto-DimDimApp-CP3
