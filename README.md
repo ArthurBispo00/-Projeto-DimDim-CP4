@@ -108,7 +108,7 @@ docker network create joaorm557808_rede
 docker volume create joaorm557808_postgres_data
 ```
 
-!\[Criação do Volume]\(volume.png)
+!\[Criação do Volume]\(imagens/volume.png)
 
 ### 4. Build da API (.NET)
 
