@@ -1,4 +1,4 @@
-# 🏦 DimDimApp - 3º Checkpoint Dockerfile
+# 🏦 DimDimApp - 4º Checkpoint DockerComponse
 
 **Equipe:**
 João Paulo Moreira dos Santos — RM 557808

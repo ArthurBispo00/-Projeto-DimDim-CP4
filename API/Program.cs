@@ -1,46 +1,55 @@
-using APIrestfullC_.Properties.Data; // Certifique-se que este namespace está correto
+using APIrestfullC_.Properties.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) Registra política de CORS
+// CORS para o front
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFront", policy =>
     {
         policy
-            .WithOrigins("http://localhost:3000") // URL do seu front
+            .WithOrigins("http://localhost:3000")
             .AllowAnyMethod()
             .AllowAnyHeader();
-            // .AllowCredentials(); // Adicione esta linha se precisar enviar cookies/autenticação
+            // .AllowCredentials();
     });
 });
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DbContext -> usa a connection string "DefaultConnection"
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// Ativa o Swagger só em desenvolvimento
+// Swagger só em dev
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// ATENÇÃO: Ative o CORS aqui, ANTES de qualquer redirecionamento/authorization
+// CORS antes de auth/pipelines
 app.UseCors("AllowFront");
 
-// Se NÃO estiver usando HTTPS no Docker, pode comentar a próxima linha:
-app.UseHttpsRedirection();
+// Em Docker (sem TLS), não redirecionar para HTTPS
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+// Health endpoint para o docker-compose healthcheck
+app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 
+// (opcional, recomendado) aplicar migrations ao subir
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+app.MapControllers();
 app.Run();
