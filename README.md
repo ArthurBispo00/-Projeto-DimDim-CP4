@@ -39,7 +39,7 @@ Antes de começar, garanta que você tenha as seguintes ferramentas instaladas:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/ArthurBispo00/-Projeto-DimDim-CP4.git](https://github.com/ArthurBispo00/-Projeto-DimDim-CP4.git)
+    git clone https://github.com/ArthurBispo00/-Projeto-DimDim-CP4
     cd -Projeto-DimDim-CP4
     ```
 
